@@ -24,6 +24,17 @@ class JobController {
         }
     }
 
+    async updateJob(req: Request, res: Response) {
+        try {
+            const job = await Job.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            if (!job) {
+                return res.status(404).json({ message: 'Job not found' });
+            }
+            res.json(job);
+        } catch (error) {
+            res.status(400).json({ message: error.message });
+        }
+    }
 }
 
 export default new JobController();
