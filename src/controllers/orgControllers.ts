@@ -35,6 +35,18 @@ class OrganizationController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async deleteOrganization(req: Request, res: Response) {
+        try {
+            const organization = await Organization.findByIdAndDelete(req.params.id);
+            if (!organization) {
+                return res.status(404).json({ message: 'Organization not found' });
+            }
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 export default new OrganizationController();
