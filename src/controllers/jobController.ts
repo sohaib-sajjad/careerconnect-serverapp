@@ -35,6 +35,18 @@ class JobController {
             res.status(400).json({ message: error.message });
         }
     }
+
+     async deleteJob(req: Request, res: Response) {
+        try {
+            const job = await Job.findByIdAndDelete(req.params.id);
+            if (!job) {
+                return res.status(404).json({ message: 'Job not found' });
+            }
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
 }
 
 export default new JobController();
