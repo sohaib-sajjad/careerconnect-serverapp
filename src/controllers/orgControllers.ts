@@ -14,7 +14,7 @@ class OrganizationController {
 
     async getOrganization(req: Request, res: Response) {
         try {
-            const organization = await Organization.findById(req.params.id);
+            const organization = await organizationModel.findById(req.params.id);
             if (!organization) {
                 return res.status(404).json({ message: 'Organization not found' });
             }
@@ -24,9 +24,21 @@ class OrganizationController {
         }
     }
 
+    async getAllOrganizations(req: Request, res: Response) {
+        try {
+            const organizations = await organizationModel.find();
+            if (!organizations) {
+                return res.status(404).json({ message: 'Organization not found' });
+            }
+            res.json(organizations);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
      async updateOrganization(req: Request, res: Response) {
         try {
-            const organization = await Organization.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            const organization = await organizationModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!organization) {
                 return res.status(404).json({ message: 'Organization not found' });
             }
@@ -38,7 +50,7 @@ class OrganizationController {
 
     async deleteOrganization(req: Request, res: Response) {
         try {
-            const organization = await Organization.findByIdAndDelete(req.params.id);
+            const organization = await organizationModel.findByIdAndDelete(req.params.id);
             if (!organization) {
                 return res.status(404).json({ message: 'Organization not found' });
             }
